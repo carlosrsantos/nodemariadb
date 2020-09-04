@@ -13,7 +13,7 @@ const sequelize = new Sequelize('teste', 'root', 'root', {
     }
 });
 
-Postagem.sync({force: true}) */;
+Postagem.sync({force: true}) ;
 
 
 const Usuario = sequelize.define('usuarios', {
@@ -32,7 +32,8 @@ const Usuario = sequelize.define('usuarios', {
 });
 
 Usuario.sync({force: true});
-/* sequelize.authenticate().then(function(){
+
+sequelize.authenticate().then(function(){
     console.log("Conectado com sucesso!")
 }).catch(function(erro){
     console.log("Falha ao se conectar: "+erro)
