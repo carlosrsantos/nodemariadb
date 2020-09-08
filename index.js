@@ -7,7 +7,7 @@ http.createServer(function(req, res) {
 */
 
 //Usando Express
-const express = require("express");
+const express = require('express');
 const app = express();
 const handlebars = require('express-handlebars');
 const Sequelize = require('sequelize');
@@ -26,12 +26,16 @@ const sequelize = new Sequelize('teste', 'root', 'root', {
 });
 
 //Rotas 
-app.get('/cad', (req, res) => {
+app.get('/cad', (req, res) => {    
     res.render('formulario');
+});
+
+app.post('/add', (req, res) => {
+    res.send('Formulário Recebido!');
 });
 
 //última linha
 app.listen(3002, () =>{ 
-        return console.log("Servidor executando!");
+        return console.log("Servidor executando na porta 3002!");
     }
 ); 
