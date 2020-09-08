@@ -9,21 +9,29 @@ http.createServer(function(req, res) {
 //Usando Express
 const express = require("express");
 const app = express();
+const handlebars = require('express-handlebars');
+const Sequelize = require('sequelize');
 
-app.get("/", (req, res) => {
-    res.sendFile(__dirname + "/html/index.html");
+//Config 
+    //Template Engine
+app.engine('handlebars', handlebars({
+    defaultLayout: 'main'}
+ ));
+app.set('view engine', 'handlebars');
+
+//Conexão com o banco de dados MySQL
+const sequelize = new Sequelize('teste', 'root', 'root', {
+    host: "localhost",
+    dialect: 'mariadb'
 });
 
-app.get("/sobre", (req, res) => {
-    res.send("Bem-vindo ao meu blog!");
+//Rotas 
+app.get('/cad', (req, res) => {
+    res.render('formulario');
 });
 
-app.get("/ola/:nome/:cargo/:cor", (req, res) => {
-    res.send(`<h2>Ola ${req.params.nome},
-    você é o novo ${req.params.cargo} e 
-    sua cor favorita é ${req.params.cor}</h2>`);
-});
-
+//última linha
 app.listen(3002, () =>{ 
-    return console.log("Servidor executando!");
-}); //última linha
+        return console.log("Servidor executando!");
+    }
+); 
