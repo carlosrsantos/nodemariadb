@@ -10,7 +10,8 @@ http.createServer(function(req, res) {
 const express = require('express');
 const app = express();
 const handlebars = require('express-handlebars');
-const Sequelize = require('sequelize');
+const bodyParser = require('body-parser');
+const Post = require('./models/Post');
 
 //Config 
     //Template Engine
@@ -19,11 +20,11 @@ app.engine('handlebars', handlebars({
  ));
 app.set('view engine', 'handlebars');
 
-//Conexão com o banco de dados MySQL
-const sequelize = new Sequelize('teste', 'root', 'root', {
-    host: "localhost",
-    dialect: 'mariadb'
-});
+//Body Parser
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
+
+
 
 //Rotas 
 app.get('/cad', (req, res) => {    
@@ -31,7 +32,14 @@ app.get('/cad', (req, res) => {
 });
 
 app.post('/add', (req, res) => {
-    res.send('Formulário Recebido!');
+    Post.create({
+        titulo: req.body.titulo,
+        conteudo: req.body.conteudo
+    }).then(()=>{
+        res.send('Post criado com sucesso!');
+    }).catch((error)=>{
+        res.send(`Houve um erro: ${error}`);
+    })
 });
 
 //última linha
